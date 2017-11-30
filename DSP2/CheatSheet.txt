@@ -1,0 +1,34 @@
+7.1. juce::dsp::WaveShaper<Type>,
+7.2. waveshaperIndex,
+7.3. processorChain.reset();
+7.4. processorChain.prepare (spec);
+7.5. auto& waveshaper = processorChain.template get<waveshaperIndex>();
+7.6. waveshaper.functionToUse = [] (Type x) { return jlimit (Type (-.1), Type (.1), x); };
+7.7. processorChain.process (context);
+
+
+8.1. juce::dsp::Gain<Type>,
+8.2. juce::dsp::Gain<Type>
+8.3. preGainIndex,
+8.4. postGainIndex
+8.5. waveshaper.functionToUse = [] (Type x) { return std::tanh (x); };
+8.6. auto& preGain = processorChain.template get<preGainIndex>();
+8.7. preGain.setGainDecibels (30.0f);
+8.8. auto& postGain = processorChain.template get<postGainIndex>();
+8.9. postGain.setGainDecibels (-20.0f);
+
+
+9.1. juce::dsp::ProcessorDuplicator<Filter, FilterCoefs>,
+9.2. filterIndex,
+9.3. auto& filter = processorChain.template get<filterIndex>();
+9.4. filter.state = FilterCoefs::makeFirstOrderHighPass (spec.sampleRate, 1e3f);
+
+
+10.1. juce::dsp::Convolution
+10.2. convolutionIndex
+10.3. processorChain.reset();
+10.4. processorChain.prepare (spec);
+10.5. auto& convolution = processorChain.template get<convolutionIndex>();
+10.6. convolution.loadImpulseResponse (CabIR::IR_wav, CabIR::IR_wavSize, true, false, 1024);
+10.7. processorChain.process (context);
+10.8. postGain.setGainDecibels (0.0f);

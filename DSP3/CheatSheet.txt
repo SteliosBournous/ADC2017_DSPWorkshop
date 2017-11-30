@@ -1,0 +1,35 @@
+11.1. rawData[leastRecentIndex] = valueToAdd;
+11.2. leastRecentIndex = leastRecentIndex == 0 ? size() - 1 : leastRecentIndex - 1;
+11.3. const auto index = (leastRecentIndex + 1 + delayInSamples) % size();
+11.4. return rawData[index];
+11.5. const auto index = (leastRecentIndex + 1 + delayInSamples) % size();
+11.6. rawData[index] = newValue;
+
+
+12.1. auto delayedSample = dline.get (delayTime);
+12.2. const auto inputSample = input[i];
+12.3. const auto delayLineInputSample = inputSample + feedback * delayedSample;
+12.4. dline.push (delayLineInputSample);
+12.5. const auto outputSample = inputSample + wetLevel * delayedSample;
+12.6. output[i] = outputSample;
+
+
+13.1. delayedSample = filter.processSample (delayedSample);
+13.2. filterCoefs = juce::dsp::IIR::Coefficients<Type>::makeFirstOrderHighPass (sampleRate, Type (2e3));
+
+
+14.1. auto forwardOut = forwardDelayLine.back();
+14.2. forwardOut = filter.processSample (forwardOut);
+14.3 forwardOut *= decayCoef;
+14.4. const auto backwardOut = backwardDelayLine.back();
+14.5. backwardDelayLine.push (-forwardOut);
+14.6. forwardDelayLine.push (-backwardOut);
+14.7. const auto out = forwardDelayLine.get (forwardPickupIndex) + backwardDelayLine.get (backwardPickupIndex);
+14.8. return out;
+14.9. WaveguideString<float>,
+14.10. stringIndex,
+14.11. processorChain.get<osc1Index>().setLevel (0.0f);
+14.12. auto& waveguideString = processorChain.get<stringIndex>();
+14.13. waveguideString.setFrequency (freqHz);
+14.14. waveguideString.trigger (velocity);
+

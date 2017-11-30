@@ -1,0 +1,6 @@
+1. Integrate a wavetable oscillator (Oscillator.h)
+2. Change the waveform to sawtooth (Oscillator.h)
+3. Add a second, detuned oscillator (Voice.h)
+4. Add a filter (Voice.h)
+5. Modulate the filter's cutoff frequency with a sine-wave LFO (Voice.h)
+6. Add reverb (AudioEngine.h)

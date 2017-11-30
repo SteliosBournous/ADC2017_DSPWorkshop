@@ -1,0 +1,4 @@
+7. Integrate a hard-clipping waveshaper (Distortion.h)
+8. Change the waveshaper's transfer curve to hyperbolic tangent and adjust pre- and post gain (Distortion.h)
+9. Add a high-pass filter before the waveshaper (Distortion.h)
+10. Implement the cabinet simulator (CabSimulator.h, Distortion.h)

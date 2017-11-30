@@ -1,0 +1,63 @@
+1.1. juce::dsp::Oscillator<Type>,
+1.2. juce::dsp::Gain<Type>
+1.3. oscIndex,
+1.4. gainIndex
+1.5. juce::HeapBlock<char> heapBlock;
+1.6. juce::dsp::AudioBlock<Type> tempBlock;
+1.7. processorChain.prepare (spec);
+1.8. tempBlock = juce::dsp::AudioBlock<Type> (heapBlock, spec.numChannels, spec.maximumBlockSize);
+1.9. processorChain.reset();
+1.10. auto& osc = processorChain.template get<oscIndex>();
+1.11. osc.initialise ([] (Type x) { return std::sin (x); }, 128);
+1.12. auto& osc = processorChain.template get<oscIndex>();
+1.13. osc.setFrequency (newValue, force);
+1.14. auto& gain = processorChain.template get<gainIndex>();
+1.15. gain.setGainLinear (newValue);
+1.16. auto blockToUse = tempBlock.getSubBlock (0, numSamples);
+1.17. auto contextToUse = juce::dsp::ProcessContextReplacing<Type> (blockToUse);
+1.18. processorChain.process (contextToUse);
+1.19. outBlock.add (blockToUse);
+
+
+2.1. osc.initialise ([] (Type x) { return jmap (x, Type (-double_Pi), Type (double_Pi), Type (-1), Type (1)); }, 2);
+
+
+3.1. Oscillator<float>,
+3.2. osc2Index,
+3.3. processorChain.get<osc2Index>().setFrequency (1.01f * freqHz, true);
+3.4. processorChain.get<osc2Index>().setLevel (velocity);
+3.5. processorChain.get<osc2Index>().setFrequency (1.01f * freqHz);
+
+
+4.1. juce::dsp::LadderFilter<float>,
+4.2. filterIndex,
+4.3. auto& filter = processorChain.get<filterIndex>();
+4.4. filter.setCutoffFrequencyHz (1e3f);
+4.5. filter.setResonance (0.7f);
+
+
+5.1. juce::dsp::Oscillator<float> lfo;
+5.2. lfo.initialise ([] (float x) { return std::sin (x); }, 128);
+5.3. lfo.setFrequency (3.0f);
+5.4. lfo.prepare ({ spec.sampleRate / lfoUpdateRate, spec.maximumBlockSize, spec.numChannels });
+5.5., 5.6.
+    for (int i = 0; i < numSamples; ++i)
+    {
+        if (--lfoUpdateCounter == 0)
+        {
+            lfoUpdateCounter = lfoUpdateRate;
+            const auto lfoOut = lfo.processSample (0.0f);
+
+            const auto cutoffFreqHz = jmap (lfoOut, -1.0f, 1.0f, 1e2f, 2e3f);
+            processorChain.get<filterIndex>().setCutoffFrequencyHz (cutoffFreqHz);
+        }
+    }
+
+
+6.1. juce::dsp::Reverb
+6.2. reverbIndex
+6.3. fxChain.prepare (spec);
+6.4. auto block = juce::dsp::AudioBlock<float> (outputAudio);
+6.5. auto blockToUse = block.getSubBlock ((size_t) startSample, (size_t) numSamples);
+6.6. auto contextToUse = juce::dsp::ProcessContextReplacing<float> (blockToUse);
+6.7. fxChain.process (contextToUse);

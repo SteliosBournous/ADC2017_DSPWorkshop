@@ -1,0 +1,4 @@
+11. Implement a delay line (DelayLine.h)
+12. Implement a delay effect (Delay.h)
+13. Implement filtered delay (Delay.h)
+14. Implement the waveguide string model (Voice.h, WaveguideString.h)
